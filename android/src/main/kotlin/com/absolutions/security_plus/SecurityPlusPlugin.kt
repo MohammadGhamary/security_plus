@@ -41,6 +41,7 @@ class SecurityPlusPlugin: FlutterPlugin, MethodCallHandler {
         when (call.method) {
             "isRooted" -> result.success(isRooted())
             "isEmulator" -> result.success(isEmulator())
+            "isDebuggerAttached" -> result.success(isDebuggerAttached())
             "isOnExternalStorage" -> result.success(isOnExternalStorage(context))
             "isDevelopmentModeEnable" -> result.success(developmentModeCheck(context))
             "isMockLocationEnabled" -> result.success(isMockLocationEnabled(context))

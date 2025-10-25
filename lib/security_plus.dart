@@ -11,6 +11,11 @@ class SecurityPlus {
     return isRooted;
   }
 
+  static Future<bool> get isDebuggerAttached async {
+    final bool isDebuggerAttached = await _channel.invokeMethod('isDebuggerAttached');
+    return isDebuggerAttached;
+  }
+
   /// iOS JailBroken checks
   /// this gets the value from native channel to flutter to know if phone is jail broken
   static Future<bool> get isJailBroken async {

@@ -21,6 +21,7 @@ class _MyAppState extends State<MyApp> {
   bool _isRooted = true,
       _isDev = false,
       _isExtStorage = false,
+      _isDebuggerAttached = false,
       _isEmulator = false;
   bool _isMockLocationEnabled = false;
 
@@ -49,6 +50,7 @@ class _MyAppState extends State<MyApp> {
     await isExtStorage();
     await isEmulator();
     await isDevelopment();
+    await isDebuggerAttached();
     await isMockLocationEnabled();
   }
 
@@ -63,6 +65,20 @@ class _MyAppState extends State<MyApp> {
     } catch (e) {
       log('\x1B[31m${"=====error======"}\x1B[0m');
       log(e.toString());
+    }
+  }
+
+  Future<void> isDebuggerAttached() async {
+    if (Platform.isAndroid) {
+      try {
+        bool result = await SecurityPlus.isDebuggerAttached;
+        setState(() {
+          _isDebuggerAttached = result;
+        });
+      } catch (e) {
+        log('\x1B[31m${"=====error======"}\x1B[0m');
+        log(e.toString());
+      }
     }
   }
 
