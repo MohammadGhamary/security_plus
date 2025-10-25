@@ -16,6 +16,11 @@ class SecurityPlus {
     return isDebuggerAttached;
   }
 
+  static Future<bool> get isLogcatActive async {
+    final bool isLogcatActive = await _channel.invokeMethod('isLogcatActive');
+    return isLogcatActive;
+  }
+
   /// iOS JailBroken checks
   /// this gets the value from native channel to flutter to know if phone is jail broken
   static Future<bool> get isJailBroken async {

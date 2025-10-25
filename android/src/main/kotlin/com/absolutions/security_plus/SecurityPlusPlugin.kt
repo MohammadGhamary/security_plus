@@ -42,6 +42,7 @@ class SecurityPlusPlugin: FlutterPlugin, MethodCallHandler {
             "isRooted" -> result.success(isRooted())
             "isEmulator" -> result.success(isEmulator())
             "isDebuggerAttached" -> result.success(isDebuggerAttached())
+            "isLogcatActive" -> result.success(isLogcatActive())
             "isOnExternalStorage" -> result.success(isOnExternalStorage(context))
             "isDevelopmentModeEnable" -> result.success(developmentModeCheck(context))
             "isMockLocationEnabled" -> result.success(isMockLocationEnabled(context))
@@ -57,7 +58,19 @@ class SecurityPlusPlugin: FlutterPlugin, MethodCallHandler {
     }
 
     private fun isDebuggerAttached(): Boolean {
-        return Debug.isDebuggerConnected()
+        return Debug.isDebuggerConnected() || Debug.waitingForDebugger()
+    }
+
+    private fun isLogcatActive(): Boolean {
+        try {
+            val process = Runtime.getRuntime().exec("ps | grep logcat")
+            val reader = BufferedReader(InputStreamReader(process.inputStream))
+            val output = reader.readText()
+            reader.close()
+            return output.contains("logcat")
+        } catch (e: Exception) {
+            return false
+        }
     }
 
     private fun checkFridaProcesses(): Boolean {
